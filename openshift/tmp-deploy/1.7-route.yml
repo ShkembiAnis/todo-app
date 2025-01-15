@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: todo-app-99-route
+  namespace: todo-app-99
+spec:
+  path: /
+  to:
+    kind: Service
+    name: todo-app-99-service
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

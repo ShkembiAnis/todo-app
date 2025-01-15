@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-deployment
+  namespace: todo-app
+  labels:
+    app: todo-app
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"todo-app:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"todo-db-nextjs\")].image"}]'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+      annotations:
+        alpha.image.policy.openshift.io/resolve-names: '*'
+    spec:
+      containers:
+      - name: todo-db-nextjs
+        image: todo-app:latest
+        ports:
+        - containerPort: 3000
+          name: todo
+        env:
+          - name: CLOUDANT_URL
+            valueFrom:
+              configMapKeyRef:
+                name: todo-app-config
+                key: CLOUDANT_URL
+          - name: CLOUDANT_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: todo-app-config
+                key: CLOUDANT_DB_NAME
+          - name: CLOUDANT_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: todo-app-secret
+                key: apikey
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 100%
+      maxSurge: 25%

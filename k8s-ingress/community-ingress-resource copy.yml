@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress-resource
+  namespace: todo-app-99
+  annotations:
+    kubernetes.io/ingress.class: "public-iks-k8s-nginx"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  tls:
+  - hosts:
+    - iks-mcce-93c663195df361da1284682bc210eb37-0000.eu-de.containers.appdomain.cloud
+    secretName: iks-mcce-93c663195df361da1284682bc210eb37-0000
+  rules:
+  - host: iks-mcce-93c663195df361da1284682bc210eb37-0000.eu-de.containers.appdomain.cloud
+    http:
+      paths:
+      - path: /todo-app-99(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-svc
+            port:
+              number: 3000

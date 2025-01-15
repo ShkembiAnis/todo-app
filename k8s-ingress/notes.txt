@@ -1,0 +1,5 @@
+for base-path see: ./next/routes-manifest.json (check on deployed resources)
+
+base path is set in:
+next.config.js
+  .env: BASE_PATH=/todo-app-99

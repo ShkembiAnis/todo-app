@@ -10,7 +10,7 @@ This app is build using Next.js.
    `npm install @mui/icons-material @mui/material @emotion/styled @emotion/react`
 4. for UUID generation: `npm install uuid`
 
-##Docker build
+## Docker build
 Dockerfile taken from: https://nextjs.org/docs/deployment  
 
 Build image:  
@@ -19,15 +19,27 @@ Build image:
 Run image
 `docker run -p 3000:3000 --name todo-app todo-app`
 
+## Using Cloudant
+install IBM Cloudant client:
+`npm install @ibm-cloud/cloudant`
+
+for local development:  
+Create the file .env.local in the todo-app folder
+```
+CLOUDANT_URL= https://ddfc6f2b-ef9a-4f90-bc21-7b4721757507-bluemix.cloudant.com
+CLOUDANT_APIKEY=DWyHXeu……..
+CLOUDANT_DB_NAME=todo-db
+```
+
+## Deploy on OpenShift
+
+* [OpenShift Customizing](./openshift/openshift.md)
 
 
-
-
-
-# Next.js
+## Next.js
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+### Getting Started
 
 First, run the development server:
 
@@ -45,7 +57,7 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+### Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
@@ -54,13 +66,13 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+### Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-# Update Nextjs
+## Update Nextjs
 see [how-to-update-next-js](https://medium.com/nextjs/how-to-update-next-js-old-version-to-the-latest-version-6870f1f1b8d1)
 
 ```
@@ -73,5 +85,27 @@ npm update
 --on error
 npm update --force
  
-ornpm update --legacy-peer-deps
+or
+
+npm update --legacy-peer-deps
+```
+Nov 2024:
+[Upgrade Next.js to Version 14](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14)
+```
+npm i next@latest react@latest react-dom@latest eslint-config-next@latest
+```
+## Update Node on Mac
+see [latest node version on mac](https://stackoverflow.com/questions/11284634/upgrade-node-js-to-the-latest-version-on-mac-os)
+
+```
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+
+nvm ls
+nvm install v22.11.0
+nvm alias default v22.11.0
+nvm use default
+
+node -v
 ```

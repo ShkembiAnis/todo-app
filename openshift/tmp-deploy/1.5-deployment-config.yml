@@ -1,0 +1,84 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/route-disabled: 'false'
+    openshift.io/generated-by: OpenShiftWebConsole
+  name: todo-app-99
+  namespace: todo-app-99
+  labels:
+    app: todo-app-99
+    app.kubernetes.io/component: todo-app-99
+    app.kubernetes.io/instance: todo-app-99
+    app.kubernetes.io/name: todo-app-99
+    app.kubernetes.io/part-of: todo-app-99
+    app.openshift.io/runtime: 3scale
+    app.openshift.io/runtime-namespace: todo-app-99
+    app.openshift.io/runtime-version: todo-app-99
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - todo-app-99
+        from:
+          kind: ImageStreamTag
+          namespace: todo-app-99
+          name: 'todo-app-99:latest'
+    - type: ConfigChange
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    app: todo-app-99
+    deploymentconfig: todo-app-99
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: todo-app-99
+        deploymentconfig: todo-app-99
+    spec:
+      containers:
+        - name: todo-app-99
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          env:
+            - name: SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-99-config
+                  key: SERVER_URL
+            - name: CLOUDANT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-99-config
+                  key: CLOUDANT_URL
+            - name: CLOUDANT_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-99-config
+                  key: CLOUDANT_DB_NAME
+            - name: CLOUDANT_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-99-secret
+                  key: apikey          
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
