@@ -6,7 +6,7 @@ metadata:
   labels:
     app: todo-app
   annotations:
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"todo-app:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"todo-db-nextjs\")].image"}]'
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"1609199928062000/todo-app:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"todo-db-nextjs\")].image"}]'
 spec:
   replicas: 1
   selector:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: todo-db-nextjs
-        image: todo-app:latest
+        image: 1609199928062000/todo-app:latest
         ports:
         - containerPort: 3000
           name: todo

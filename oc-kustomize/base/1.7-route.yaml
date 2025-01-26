@@ -2,7 +2,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: todo-app-route
-  namespace: todo-app
+  namespace: anis-shkembi-dev
 spec:
   path: /
   to:
