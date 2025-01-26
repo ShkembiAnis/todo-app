@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-app-deployment
-  namespace: todo-app
+  namespace: anis-shkembi-dev
   labels:
     app: todo-app
   annotations:
