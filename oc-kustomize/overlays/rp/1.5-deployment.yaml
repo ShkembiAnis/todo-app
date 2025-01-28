@@ -6,7 +6,7 @@ metadata:
   labels:
     app: todo-app
   annotations:
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"1609199928062000/todo-app:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"todo-db-nextjs\")].image"}]'
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"todo-app:latest","namespace":"anis-shkembi-dev"},"fieldPath":"spec.template.spec.containers[?(@.name==\"todo-db-nextjs\")].image"}]'
 spec:
   replicas: 1
   selector:
@@ -20,29 +20,29 @@ spec:
         alpha.image.policy.openshift.io/resolve-names: '*'
     spec:
       containers:
-      - name: todo-db-nextjs
-        image: 1609199928062000/todo-app:latest
-        ports:
-        - containerPort: 3000
-          name: todo
-        env:
-          - name: CLOUDANT_URL
-            valueFrom:
-              configMapKeyRef:
-                name: todo-app-config
-                key: CLOUDANT_URL
-          - name: CLOUDANT_DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: todo-app-config
-                key: CLOUDANT_DB_NAME
-          - name: CLOUDANT_APIKEY
-            valueFrom:
-              secretKeyRef:
-                name: todo-app-secret
-                key: apikey
+        - name: todo-db-nextjs
+          image: image-registry.openshift-image-registry.svc:5000/anis-shkembi-dev/todo-app@sha256:bfd1b27a84973cdce8e286a0750adaf2ae4f44dfeb2e7e9162ec378b8ae4a054  # Using SHA digest
+          ports:
+            - containerPort: 3000
+              name: todo
+          env:
+            - name: CLOUDANT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config
+                  key: CLOUDANT_URL
+            - name: CLOUDANT_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config
+                  key: CLOUDANT_DB_NAME
+            - name: CLOUDANT_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-secret
+                  key: apikey
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 100%
+      maxUnavailable: 25%
       maxSurge: 25%

@@ -14,7 +14,7 @@ spec:
       imageChange:
       from:
         kind: ImageStreamTag
-        name: todo-app:latest
+        name: 1609199928062000/todo-app:latest
     - type: ConfigChange
     
   source:
@@ -29,5 +29,5 @@ spec:
       dockerfilePath: Dockerfile    # Look for Dockerfile in: gitUri/contextDir/dockerfilePath
   output:
     to:
-      kind: ImageStreamTag
-      name: todo-app:latest
+      kind: DockerImage
+      name: docker.io/1609199928062000/todo-app:latest
